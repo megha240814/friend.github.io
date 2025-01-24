@@ -3,51 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Friend-Bot</title>
+    <title>My Friend-Bot</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
+            background-color: #f3f4f9;
             height: 100vh;
-            margin: 0;
         }
         .chat-container {
-            width: 400px;
-            background-color: white;
+            width: 350px;
+            background-color: #ffffff;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             display: flex;
             flex-direction: column;
+            overflow: hidden;
+        }
+        .chat-header {
+            background-color: #4CAF50;
+            padding: 15px;
+            color: white;
+            font-size: 18px;
+            text-align: center;
+            font-weight: bold;
         }
         .chat-box {
             flex: 1;
-            padding: 20px;
-            overflow-y: auto;
+            padding: 15px;
             height: 300px;
-            border-bottom: 1px solid #ddd;
+            overflow-y: auto;
+            background-color: #f9f9f9;
+            display: flex;
+            flex-direction: column;
         }
         .chat-box p {
             margin: 10px 0;
+            padding: 8px;
+            border-radius: 5px;
+            max-width: 80%;
         }
-        .chat-box .bot-message {
-            color: #4CAF50;
+        .bot-message {
+            background-color: #4CAF50;
+            color: white;
+            align-self: flex-start;
+            border-radius: 10px 10px 0 10px;
+            margin-left: 10px;
         }
-        .chat-box .user-message {
-            text-align: right;
-            color: #008CBA;
+        .user-message {
+            background-color: #008CBA;
+            color: white;
+            align-self: flex-end;
+            border-radius: 10px 10px 10px 0;
+            margin-right: 10px;
         }
         .input-container {
             display: flex;
             padding: 10px;
+            background-color: #ffffff;
             border-top: 1px solid #ddd;
         }
         .input-container input {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             border-radius: 5px;
             border: 1px solid #ddd;
             font-size: 14px;
@@ -56,7 +78,7 @@
             background-color: #4CAF50;
             color: white;
             border: none;
-            padding: 10px;
+            padding: 12px;
             border-radius: 5px;
             cursor: pointer;
             font-size: 14px;
@@ -70,11 +92,14 @@
 <body>
 
     <div class="chat-container">
+        <div class="chat-header">
+            Your Friend-Bot
+        </div>
         <div class="chat-box" id="chat-box">
-            <p class="bot-message">Hello! I'm your Friend-Bot. How are you doing today?</p>
+            <p class="bot-message">Hey! It's me, your friend 😊. How's your day going?</p>
         </div>
         <div class="input-container">
-            <input type="text" id="user-input" placeholder="Type a message...">
+            <input type="text" id="user-input" placeholder="Tell me something..." autocomplete="off">
             <button onclick="sendMessage()">Send</button>
         </div>
     </div>
@@ -97,15 +122,19 @@
                 let botMessage = document.createElement('p');
                 botMessage.classList.add('bot-message');
 
-                // Simple bot responses
+                // Custom responses based on user input
                 if (userInput.toLowerCase().includes("how are you")) {
-                    botMessage.innerText = "I'm doing great, thanks for asking! How about you?";
-                } else if (userInput.toLowerCase().includes("hello")) {
-                    botMessage.innerText = "Hey there! How can I help you today?";
+                    botMessage.innerText = "I'm feeling great, thank you! And you? 😊";
+                } else if (userInput.toLowerCase().includes("hello") || userInput.toLowerCase().includes("hi")) {
+                    botMessage.innerText = "Heyyy! How's it going? 😄";
                 } else if (userInput.toLowerCase().includes("bye")) {
-                    botMessage.innerText = "Goodbye! Take care!";
+                    botMessage.innerText = "Aww, you're leaving already? Take care, talk soon! 👋";
+                } else if (userInput.toLowerCase().includes("what's up") || userInput.toLowerCase().includes("how's life")) {
+                    botMessage.innerText = "Just chilling here, you know, the usual 😎. What's up with you?";
+                } else if (userInput.toLowerCase().includes("thanks") || userInput.toLowerCase().includes("thank you")) {
+                    botMessage.innerText = "You're welcome! Always here for you 😊!";
                 } else {
-                    botMessage.innerText = "Hmm, I'm not sure what to say. Tell me more!";
+                    botMessage.innerText = "Haha, that's interesting! Tell me more! 😄";
                 }
 
                 // Append bot response
