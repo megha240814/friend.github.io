@@ -3,154 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Friend-Bot</title>
+    <title>Simple Chatbot</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #f3f4f9;
-            height: 100vh;
+            font-family: Arial, sans-serif;
+            background-color: #f1f1f1;
+            padding: 20px;
         }
+
         .chat-container {
-            width: 350px;
-            background-color: #ffffff;
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        .chat-header {
-            background-color: #4CAF50;
-            padding: 15px;
-            color: white;
-            font-size: 18px;
-            text-align: center;
-            font-weight: bold;
-        }
+
         .chat-box {
-            flex: 1;
-            padding: 15px;
-            height: 300px;
+            max-height: 400px;
             overflow-y: auto;
-            background-color: #f9f9f9;
-            display: flex;
-            flex-direction: column;
-        }
-        .chat-box p {
-            margin: 10px 0;
-            padding: 8px;
-            border-radius: 5px;
-            max-width: 80%;
-        }
-        .bot-message {
-            background-color: #4CAF50;
-            color: white;
-            align-self: flex-start;
-            border-radius: 10px 10px 0 10px;
-            margin-left: 10px;
-        }
-        .user-message {
-            background-color: #008CBA;
-            color: white;
-            align-self: flex-end;
-            border-radius: 10px 10px 10px 0;
-            margin-right: 10px;
-        }
-        .input-container {
-            display: flex;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
             padding: 10px;
-            background-color: #ffffff;
-            border-top: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fafafa;
         }
-        .input-container input {
+
+        .chat-input {
             width: 100%;
-            padding: 12px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
             border-radius: 5px;
-            border: 1px solid #ddd;
-            font-size: 14px;
         }
-        .input-container button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-            margin-left: 10px;
+
+        .bot-message {
+            color: #333;
+            font-weight: bold;
+            margin: 10px 0;
         }
-        .input-container button:hover {
-            background-color: #45a049;
+
+        .user-message {
+            color: #0066cc;
+            margin: 10px 0;
         }
     </style>
 </head>
 <body>
 
     <div class="chat-container">
-        <div class="chat-header">
-            Your Friend-Bot
-        </div>
+        <h2>Chat with our Bot</h2>
         <div class="chat-box" id="chat-box">
-            <p class="bot-message">Hey! It's me, your friend 😊. How's your day going?</p>
+            <!-- Chat messages will appear here -->
         </div>
-        <div class="input-container">
-            <input type="text" id="user-input" placeholder="Tell me something..." autocomplete="off">
-            <button onclick="sendMessage()">Send</button>
-        </div>
+        <input type="text" id="user-input" class="chat-input" placeholder="Type a message..." onkeyup="checkEnter(event)">
     </div>
 
     <script>
-        function sendMessage() {
-            const userInput = document.getElementById('user-input').value;
-            if (userInput.trim() !== "") {
-                // Display user message
-                let chatBox = document.getElementById('chat-box');
-                let userMessage = document.createElement('p');
-                userMessage.classList.add('user-message');
-                userMessage.innerText = userInput;
-                chatBox.appendChild(userMessage);
+        // Sample responses
+        const responses = {
+            "hello": "Hi! How can I assist you today?",
+            "hi": "Hello! How can I help you?",
+            "how are you?": "I'm just a bot, but I'm doing great! How about you?",
+            "your name?": "I'm a chatbot created to help you!",
+            "bye": "Goodbye! Take care.",
+        };
 
-                // Clear the input field
-                document.getElementById('user-input').value = "";
+        // Add message to chat box
+        function addMessage(message, sender) {
+            const chatBox = document.getElementById('chat-box');
+            const newMessage = document.createElement('div');
+            newMessage.classList.add(sender + '-message');
+            newMessage.textContent = message;
+            chatBox.appendChild(newMessage);
+            chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll to bottom
+        }
 
-                // Simulate bot response
-                let botMessage = document.createElement('p');
-                botMessage.classList.add('bot-message');
+        // Bot response function
+        function getBotResponse(userInput) {
+            // Make the input lowercase for easier matching
+            const message = userInput.toLowerCase().trim();
+            return responses[message] || "Sorry, I didn't understand that. Can you try again?";
+        }
 
-                // Custom responses based on user input
-                if (userInput.toLowerCase().includes("how are you")) {
-                    botMessage.innerText = "I'm feeling great, thank you! And you? 😊";
-                } else if (userInput.toLowerCase().includes("hello") || userInput.toLowerCase().includes("hi")) {
-                    botMessage.innerText = "Heyyy! How's it going? 😄";
-                } else if (userInput.toLowerCase().includes("bye")) {
-                    botMessage.innerText = "Aww, you're leaving already? Take care, talk soon! 👋";
-                } else if (userInput.toLowerCase().includes("what's up") || userInput.toLowerCase().includes("how's life")) {
-                    botMessage.innerText = "Just chilling here, you know, the usual 😎. What's up with you?";
-                } else if (userInput.toLowerCase().includes("thanks") || userInput.toLowerCase().includes("thank you")) {
-                    botMessage.innerText = "You're welcome! Always here for you 😊!";
-                } else {
-                    botMessage.innerText = "Haha, that's interesting! Tell me more! 😄";
-                }
+        // Handle user input
+        function handleUserInput() {
+            const userInputField = document.getElementById('user-input');
+            const userInput = userInputField.value.trim();
+            if (userInput) {
+                addMessage(userInput, 'user');
+                const botResponse = getBotResponse(userInput);
+                setTimeout(() => addMessage(botResponse, 'bot'), 500); // Delay bot response
+            }
+            userInputField.value = ''; // Clear input field after submission
+        }
 
-                // Append bot response
-                chatBox.appendChild(botMessage);
-
-                // Scroll to the bottom of the chat box
-                chatBox.scrollTop = chatBox.scrollHeight;
+        // Check if Enter is pressed to send message
+        function checkEnter(event) {
+            if (event.key === "Enter") {
+                handleUserInput();
             }
         }
 
-        // Allow sending message by pressing "Enter"
-        document.getElementById('user-input').addEventListener('keydown', function(event) {
-            if (event.key === 'Enter') {
-                sendMessage();
-            }
-        });
+        // Initial greeting
+        addMessage("Hello! I am your chatbot. How can I help you?", "bot");
     </script>
 
 </body>
